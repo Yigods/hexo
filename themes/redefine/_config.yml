@@ -11,13 +11,13 @@
 # Docs: https://redefine-docs.ohevan.com/basic/info
 info:
   # Site title
-  title: Theme Redefine
+  title: Yigod's Blog
   # Site subtitle
-  subtitle: Redefine Your Hexo Journey.
+  subtitle: RECODE MY LIFE
   # Author name
-  author: The Redefine Team
+  author: Yigod
   # Site URL
-  url: https://redefine.ohevan.com
+  url: https://blog.yigod.com
 # BASIC INFORMATION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
 
@@ -27,7 +27,7 @@ defaults:
   # Favicon
   favicon: /images/logo.png
   # Site logo
-  logo: 
+  logo: /images/logo.png
   # Site avatar
   avatar: /images/avatar.jpg
 # IMAGE CONFIGURATION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
@@ -128,7 +128,7 @@ home_banner:
     light: /images/background.jpg # light mode
     dark: /images/background.jpg # dark mode
   # Home banner title
-  title: Theme Redefine
+  title: Yigod's Blog
   # Home banner subtitle
   subtitle:
     text: [] # subtitle text, array
