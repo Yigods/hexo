@@ -131,7 +131,7 @@ home_banner:
   title: Yigod's Blog
   # Home banner subtitle
   subtitle:
-    text: [] # subtitle text, array
+    text: [Nothing loading] # subtitle text, array
     hitokoto:  # 一言配置
       enable: false # Whether to enable hitokoto
       show_author: false # Whether to show author
@@ -165,16 +165,16 @@ home_banner:
   # Home banner social links
   social_links:
     # Whether to enable
-    enable: false
+    enable: true
     # Social links style
     style: default # default, reverse, center
     # Social links
     links:
-      github:  # your GitHub URL
+      github: https://github.com/Yigods # your GitHub URL
       instagram: # your Instagram URL
       zhihu:  # your ZhiHu URL
       twitter:  # your twitter URL
-      email:  # your email
+      email: 2781431072@#qq.com # your email
       # ...... # you can add more
     # Social links with QRcode drawers
     qrs:
