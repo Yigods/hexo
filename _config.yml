@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Yigod's Blog
 subtitle: ''
-description: ''
+description: 'one blog for all'
 keywords:
-author: John Doe
-language: en
+author: Yigod
+language: zh-CN
 timezone: ''
 
 # URL
@@ -44,7 +44,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: false
   tab_replace: ''
@@ -97,7 +97,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: particlex
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
