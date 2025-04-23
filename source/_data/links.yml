@@ -18,4 +18,13 @@
         link: https://example.com
         description: Example Site Description
         avatar: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+- links_category: 分类名
+  has_thumbnail: false # 是否需要缩略图，默认 false
+  list:
+      - name: oacia の BbBlog~
+        link: https://oacia.dev/
+        description: 月遇从云，花遇和风
+        avatar: https://oacia.dev/images/avatar.jpg
+      
  

@@ -208,6 +208,9 @@ navbar:
     # Status: 
     #   path: https://status.ohevan.com/
     #   icon: fa-regular fa-chart-bar
+    说说: #取名随意
+            icon: fa-solid fa-message  #图标
+            path: /essays/ #路径
     Friends: #取名随意
             icon: fa-solid fa-link #图标
             path: /links/
