@@ -364,7 +364,8 @@ comment:
       clientSecret: bb9dc182deb9416d03fe9131420d6b42b0a67676 # GitHub Application Client Secret
       repo: blogtalk  # GitHub repository
       owner: Yigods # GitHub repository owner
-      proxy: /login/oauth/access_token # GitHub repository proxy
+      admin: Yigods # GitHub repository admin
+      proxy: #/login/oauth/access_token # GitHub repository proxy
     # Waline comment system. See https://waline.js.org/
     waline:
       serverUrl: https://example.example.com # Waline server URL. e.g. https://example.example.com
