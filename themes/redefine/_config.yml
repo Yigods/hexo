@@ -370,7 +370,7 @@ comment:
     gitalk:
       clientID: Ov23liPMAERfggkJfZVc # GitHub Application Client ID
       clientSecret: bb9dc182deb9416d03fe9131420d6b42b0a67676 # GitHub Application Client Secret
-      repo: blogtalk # GitHub repository
+      repo: blogtalk  # GitHub repository
       owner: Yigods # GitHub repository owner
       proxy: # GitHub repository proxy
     # Twikoo comment system. See https://twikoo.js.org/
