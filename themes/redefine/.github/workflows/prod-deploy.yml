@@ -1,4 +1,4 @@
-name: Vercel Production Deployment
+name: Prod Deploy
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -11,15 +11,18 @@ on:
 jobs:
   production-deployment:
     runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://redefine.ohevan.com
     
     steps:
       - name: Checkout theme repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: 'theme' # Checkout the theme repository into a directory named 'theme'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20.x' # Specify your required Node.js version
 
@@ -45,6 +48,9 @@ jobs:
       - name: Change directory to hexo-site
         run: echo "HEXO_SITE_DIR=${{ github.workspace }}/hexo-site" >> $GITHUB_ENV
 
+      - name: Install Vercel CLI
+        run: npm install -g vercel@22.0.1
+
       - name: Deploy to Vercel Action
         uses: EvanNotFound/vercel-deployment-for-github-actions@v1.1.0
         with:
@@ -55,5 +61,6 @@ jobs:
           WORKING_DIRECTORY: ${{ env.HEXO_SITE_DIR }}
           VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
           PRODUCTION: true
+          GITHUB_DEPLOYMENT: false
           DEPLOY_PR_FROM_FORK: true
           PR_PREVIEW_DOMAIN: "redefine-preview-pr-{PR}.vercel.app"

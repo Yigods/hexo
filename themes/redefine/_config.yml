@@ -170,16 +170,12 @@ home_banner:
     style: default # default, reverse, center
     # Social links
     links:
-      github: https://github.com/Yigods # your GitHub URL
-      instagram: # your Instagram URL
-      zhihu:  # your ZhiHu URL
-      twitter:  # your twitter URL
-      email: 2781431072@#qq.com # your email
-      # ...... # you can add more
+      - icon: github
+        url: https://github.com/Yigods
+      - icon: email
+        url: 2781431072@#qq.com
     # Social links with QRcode drawers
-    qrs:
-      weixin:  # your Wechat QRcode image URL
-      # ...... # you can add more
+    qrs: []
 # HOME BANNER <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
 
@@ -476,7 +472,7 @@ page_templates:
 # Docs: https://redefine-docs.ohevan.com/cdn
 cdn:
   # Whether to enable CDN
-  enable: false
+  enable: true
   # CDN Provider
   provider: npmmirror # npmmirror, zstatic, cdnjs, jsdelivr, unpkg, custom
   # Custom CDN URL
