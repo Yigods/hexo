@@ -2,11 +2,10 @@
 
 Current status on April 24, 2026:
 
-- Waline service is reachable
-- Waline backend storage is broken because the linked LeanCloud app is archived
-- Hexo theme comment system has been switched to `giscus` pre-configuration
+- Hexo theme comment system is pinned to `giscus`
 - Repository ID for `Yigods/hexo` is already filled: `R_kgDONqfSxQ`
-- Remaining blocker: GitHub Discussions is not enabled on the repository yet
+- Discussion category ID is already filled: `DIC_kwDONqfSxc4C7kdy`
+- Remaining blocker: ensure repository Discussions and giscus app stay enabled
 
 ## Remaining manual steps
 
@@ -56,7 +55,6 @@ Then commit and push the repo so Vercel redeploys.
 
 After deploy, open a post page and confirm:
 
-- no Waline archived error
 - giscus iframe is rendered
 - anonymous visitors can read comments
 - signed-in GitHub users can comment

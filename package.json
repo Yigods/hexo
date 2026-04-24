@@ -3,16 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
+    "build": "node ./node_modules/hexo-cli/bin/hexo clean && node ./node_modules/hexo-cli/bin/hexo generate",
+    "clean": "node ./node_modules/hexo-cli/bin/hexo clean",
+    "deploy": "node ./node_modules/hexo-cli/bin/hexo deploy",
+    "server": "node ./node_modules/hexo-cli/bin/hexo server"
   },
   "hexo": {
     "version": "7.3.0"
   },
   "dependencies": {
     "hexo": "^7.3.0",
+    "hexo-cli": "^4.3.2",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-index": "^4.0.0",
