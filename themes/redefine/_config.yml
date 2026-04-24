@@ -355,16 +355,16 @@ comment:
   # Whether to enable comment
   enable: true
   # Comment system
-  system: waline # waline, gitalk, twikoo, giscus
+  system: giscus # waline, gitalk, twikoo, giscus
   # System configuration
   config:
     # Gitalk comment system. See https://github.com/gitalk/gitalk
     gitalk:
-      clientID: Ov23liPMAERfggkJfZVc # GitHub Application Client ID
-      clientSecret: bb9dc182deb9416d03fe9131420d6b42b0a67676 # GitHub Application Client Secret
-      repo: blogtalk  # GitHub repository
-      owner: Yigods # GitHub repository owner
-      admin: Yigods # GitHub repository admin
+      clientID: # Removed from theme config. Keep OAuth secrets server-side only.
+      clientSecret: # Removed from theme config. Keep OAuth secrets server-side only.
+      repo:  # GitHub repository
+      owner:  # GitHub repository owner
+      admin:  # GitHub repository admin
       proxy: #/login/oauth/access_token # GitHub repository proxy
     # Waline comment system. See https://waline.js.org/
     waline:
@@ -382,15 +382,15 @@ comment:
       region: # Twikoo region. can be empty
     # Giscus comment system. See https://giscus.app/
     giscus:
-      repo: # Github repository name e.g. EvanNotFound/hexo-theme-redefine
-      repo_id: # Github repository id
-      category: # Github discussion category
-      category_id: # Github discussion category id
+      repo: Yigods/hexo # Public repository used by giscus
+      repo_id: R_kgDONqfSxQ # Repository ID fetched from GitHub GraphQL
+      category: Announcements # Recommended for auto-created discussions
+      category_id: DIC_kwDONqfSxc4C7kdy # Discussion category ID
       mapping: pathname # Which value to use as the unique identifier for the page. e.g. pathname, url, title, og:title. DO NOT USE og:title WITH PJAX ENABLED since pjax will not update og:title when the page changes
       strict: 0 # Whether to enable strict mode. e.g. 0, 1
       reactions_enabled: 1 # Whether to enable reactions. e.g. 0, 1
       emit_metadata: 0 # Whether to emit metadata. e.g. 0, 1
-      lang: en # Giscus language. e.g. en, zh-CN, zh-TW
+      lang: zh-CN # Giscus language. e.g. en, zh-CN, zh-TW
       input_position: bottom # Place the comment box above/below the comments. e.g. top, bottom
       loading: lazy # Load the comments lazily
 # COMMENT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
