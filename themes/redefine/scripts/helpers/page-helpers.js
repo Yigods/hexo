@@ -70,6 +70,12 @@ const pageData = {
 		partial: "pages/shuoshuo/essays",
 		layout: "default",
 	},
+	essayDetail: {
+		titles: [],
+		types: ["essay-detail", "essay_detail"],
+		partial: "pages/shuoshuo/essay-detail",
+		layout: "default",
+	},
 	masonry: {
 		titles: ["gallery", "瀑布流", "相册", "photos", "photo"],
 		types: ["masonry", "gallery", "瀑布流", "相册", "photos", "photo"],

@@ -1,4 +1,40 @@
-- content: 第一条说说内容
-  date: Tue Jan 01 18:00:00 GMT+08:00 2019
-- content: 第二条测试
-  date: Wed Jan 02 18:00:00 GMT+08:00 2019
+- slug: misty-valley
+  content: 清晨的山谷有一点雾，适合只放一张大图。
+  date: 2026-04-24 08:15
+  pinned: true
+  images:
+    - /images/uploads/demo/2026/04/landscape-1.jpg
+  location_name: 山谷观景台
+  location_url: https://maps.apple.com/?q=%E5%B1%B1%E8%B0%B7%E8%A7%82%E6%99%AF%E5%8F%B0
+
+- slug: coast-wind
+  content: 海风很大，双图更适合这种并列的视角。
+  date: 2026-04-23 18:42
+  images:
+    - /images/uploads/demo/2026/04/landscape-2.jpg
+    - /images/uploads/demo/2026/04/landscape-3.jpg
+  location_name: 海边栈道
+
+- slug: forest-walk
+  content: 下午走进树林，四张图正好可以做成田字格。
+  date: 2026-04-22 16:08
+  images:
+    - /images/uploads/demo/2026/04/landscape-1.jpg
+    - /images/uploads/demo/2026/04/landscape-4.jpg
+    - /images/uploads/demo/2026/04/landscape-5.jpg
+    - /images/uploads/demo/2026/04/landscape-6.jpg
+  location_name: 森林步道
+
+- slug: lakeside-sunset
+  content: 傍晚在湖边拍了很多张，顺便放一段短视频测试视频样式。
+  date: 2026-04-21 19:26
+  images:
+    - /images/uploads/demo/2026/04/landscape-1.jpg
+    - /images/uploads/demo/2026/04/landscape-2.jpg
+    - /images/uploads/demo/2026/04/landscape-3.jpg
+    - /images/uploads/demo/2026/04/landscape-4.jpg
+    - /images/uploads/demo/2026/04/landscape-5.jpg
+    - /images/uploads/demo/2026/04/landscape-6.jpg
+  videos:
+    - /images/uploads/demo/2026/04/landscape-demo.mp4
+  location_name: 湖边日落点

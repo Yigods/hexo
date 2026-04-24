@@ -1,23 +1,101 @@
-<div class="mb-4">
-	<h1 class="page-title-header"><%= page.title %></h1>
-	<ul class="flex flex-col mb-4 gap-6">
+<div class="mb-6 flex flex-col gap-4">
+	<%
+    const authorName = config.author || config.title || 'Yigod';
+    %>
+	<div class="flex items-center justify-between gap-4">
+		<div class="flex flex-col gap-1">
+			<h1 class="page-title-header !mb-0"><%= page.title %></h1>
+			<p class="text-sm text-third-text-color">记录日常，不做额外修饰。</p>
+		</div>
+		<div class="hidden text-xs uppercase tracking-[0.2em] text-third-text-color md:block">Timeline</div>
+	</div>
+	<ul class="mb-4 flex flex-col">
 		<%
         const timezone = config.timezone || 'Asia/Shanghai';
-        const newessays = theme.essays.sort((a, b) => moment(b.date).diff(a.date));
+        const essays = getNormalizedEssays(theme.essays);
         %>
-		<% for (const e of newessays) { %>
-		<li class="w-full flex flex-row relative">
-			<div class="w-10 h-10 mr-4 rounded-lg overflow-hidden border border-border-color p-[1px] shrink-0">
-				<%- image_tag(theme.defaults.avatar, {class: "w-full h-full rounded-[6.2px]"}) %>
+		<% essays.forEach((e, index) => { %>
+		<%
+        const momentDate = typeof e.date === 'string'
+          ? moment(e.date, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD HH:mm'], true)
+          : moment(e.date);
+        const exactDate = momentDate.isValid() ? momentDate.format('YYYY-MM-DD HH:mm') : e.date;
+        const relativeDateValue = momentDate.isValid() ? momentDate.format() : '';
+        const imageCount = e.images.length;
+        const gridStyle = imageCount === 1
+          ? 'grid-template-columns:minmax(0,1fr);max-width:14rem;'
+          : (imageCount === 2 || imageCount === 4)
+            ? 'grid-template-columns:repeat(2,minmax(0,1fr));max-width:32rem;'
+            : 'grid-template-columns:repeat(3,minmax(0,1fr));max-width:32rem;';
+        const imageStyle = imageCount === 1
+          ? 'height:10.5rem;width:100%;object-fit:cover;'
+          : 'aspect-ratio:1 / 1;width:100%;object-fit:cover;';
+        %>
+		<li class="group relative flex w-full flex-row gap-4 py-6 first:pt-2">
+			<div class="relative z-[1] h-10 w-10 shrink-0 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+				<%- image_tag(theme.defaults.avatar, {class: "h-full w-full rounded-[0.8rem] object-cover"}) %>
 			</div>
-			<div class="w-full border-border-color rounded-xl rounded-tl-none shadow-redefine-flat overflow-hidden">
-				<!-- Pass the raw date here in a data attribute -->
-				<% rawDate = moment(e.date).utc().format('YYYY-MM-DD HH:mm:ss') %>
-				<div class="essay-date px-4 py-1.5 text-sm border-b border-border-color bg-zinc-50 dark:bg-zinc-800 text-third-text-color" data-date="<%= moment(rawDate).tz(timezone).format() %>">Loading Date...</div>
-				<div id="shuoshuo-content" class="px-4 py-2"><%- markdown(e.content) %></div>
+			<div class="flex-1">
+				<div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-third-text-color" data-date="<%= relativeDateValue %>">
+					<span class="text-[15px] font-semibold tracking-[0.01em] text-first-text-color"><%= authorName %></span>
+					<span class="essay-date-exact"><%= exactDate %></span>
+					<% if (e.pinned) { %>
+					<span class="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-500/10 dark:text-amber-200">置顶</span>
+					<% } %>
+				</div>
+				<div class="flex flex-col gap-4">
+					<div id="shuoshuo-content" class="shuoshuo-content text-[15px] leading-8"><%- markdown(e.content) %></div>
+					<% if (e.images.length) { %>
+					<div class="essay-media-grid grid gap-2.5" style="<%= gridStyle %>">
+						<% for (const image of e.images.slice(0, 9)) { %>
+						<button type="button" class="block overflow-hidden rounded-[1rem] bg-[var(--card-background-color)]">
+							<img src="<%= image %>" alt="essay image" loading="lazy" style="<%= imageStyle %>" class="cursor-zoom-in transition-transform duration-300 hover:scale-[1.03]">
+						</button>
+						<% } %>
+					</div>
+					<% } %>
+					<% if (e.videos.length) { %>
+					<div class="flex flex-col gap-3">
+						<% for (const video of e.videos) { %>
+						<video controls preload="metadata" style="height:10.5rem;width:100%;max-width:14rem;object-fit:cover;" class="rounded-[1rem] bg-black">
+							<source src="<%= video %>">
+						</video>
+						<% } %>
+					</div>
+					<% } %>
+					<% if (e.location_name) { %>
+					<div class="flex flex-wrap items-center gap-2 text-sm text-third-text-color">
+						<span class="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 dark:bg-zinc-800">
+							地点 · <%= e.location_name %>
+						</span>
+						<% if (e.location_url) { %>
+						<a href="<%= e.location_url %>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 hover:text-primary-color dark:bg-zinc-800">
+							查看地址
+						</a>
+						<% } %>
+					</div>
+					<% } %>
+					<div class="flex flex-wrap items-center gap-2 pt-1 text-sm">
+						<a href="<%= getEssayUrl(e) %>" class="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-third-text-color transition-colors hover:text-primary-color dark:bg-zinc-800">
+							详情页
+						</a>
+						<button
+							type="button"
+							class="essay-like-button inline-flex items-center gap-2 rounded-full bg-zinc-100 px-3 py-1 text-third-text-color transition-colors hover:text-primary-color dark:bg-zinc-800"
+							data-essay-slug="<%= e.slug %>"
+							data-base-likes="<%= e.likes %>"
+							aria-pressed="false"
+						>
+							<span>点赞</span>
+							<span class="essay-like-count"><%= e.likes %></span>
+						</button>
+					</div>
+				</div>
 			</div>
-			<div class="absolute left-[50.5px] top-3 transform w-2 h-2 border-solid border-t border-l bg-zinc-50 -rotate-45 border-border-color dark:bg-zinc-800"></div>
+			<% if (index < essays.length - 1) { %>
+			<div class="absolute bottom-0 left-14 h-px w-14 bg-zinc-300/95 dark:bg-zinc-700/95"></div>
+			<% } %>
 		</li>
-		<% } %>
+		<% }) %>
 	</ul>
 </div>

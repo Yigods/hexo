@@ -15,7 +15,7 @@ const viewerState = {
 };
 
 const imageSelector =
-  ".markdown-body img, .masonry-item img, #shuoshuo-content img";
+  ".markdown-body img, .masonry-item img, #shuoshuo-content img, .essay-media-grid img, .essay-detail-media-grid img";
 
 const viewerControls = {
   prevButton: null,
