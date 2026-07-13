@@ -5,11 +5,11 @@
 # Site
 title: Yigod's Blog
 subtitle: 'love coding, love life'
-description: 'one blog for all'
-keywords:
+description: '记录编程、逆向工程、Pwn、CTF 与日常思考。'
+keywords: 编程, 逆向工程, Pwn, CTF, 技术博客
 author: Yigod
 language: zh-CN
-timezone: ''
+timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'

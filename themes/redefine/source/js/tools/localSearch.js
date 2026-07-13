@@ -361,6 +361,10 @@ const handleKeyup = (event) => {
 };
 
 export const initLocalSearchGlobals = ({ signal } = {}) => {
+  if (theme.navbar?.search?.enable !== true) {
+    return;
+  }
+
   const searchPath = ensureSearchPath();
   if (!searchPath) {
     if (!warnedMissing) {

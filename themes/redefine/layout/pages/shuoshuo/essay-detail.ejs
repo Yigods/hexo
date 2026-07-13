@@ -1,22 +1,10 @@
 <%
 const essay = page.essay || {};
-const momentDate = typeof essay.date === 'string'
-  ? moment(essay.date, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD HH:mm'], true)
-  : moment(essay.date);
-const exactDate = momentDate.isValid() ? momentDate.format('YYYY-MM-DD HH:mm') : essay.date;
-const relativeDateValue = momentDate.isValid() ? momentDate.format() : essay.date;
-const imageCount = essay.images ? essay.images.length : 0;
-const gridStyle = imageCount === 1
-  ? 'grid-template-columns:minmax(0,1fr);max-width:22rem;gap:0.625rem;'
-  : (imageCount === 2 || imageCount === 4)
-    ? 'grid-template-columns:repeat(2,minmax(0,1fr));max-width:38rem;gap:0.625rem;'
-    : 'grid-template-columns:repeat(3,minmax(0,1fr));max-width:38rem;gap:0.625rem;';
-const imageStyle = imageCount === 1
-  ? 'height:16rem;width:100%;object-fit:cover;'
-  : 'aspect-ratio:1 / 1;width:100%;object-fit:cover;';
+const essayDisplay = getEssayDisplayData(essay, { detail: true });
+const prevEssay = page.prevEssay || null;
+const nextEssay = page.nextEssay || null;
 %>
-<div class="page-template-container">
-	<div class="page-template-content markdown-body">
+<div class="essay-detail-view markdown-body">
 		<%
         const authorName = config.author || config.title || 'Yigod';
         %>
@@ -31,13 +19,13 @@ const imageStyle = imageCount === 1
 							</div>
 							<div class="flex flex-col gap-1.5">
 								<div class="text-[15px] font-semibold text-first-text-color"><%= authorName %></div>
-								<div class="essay-date flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-third-text-color" data-date="<%= relativeDateValue %>">
-									<span class="font-medium essay-date-exact"><%= exactDate %></span>
+								<div class="essay-date flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-third-text-color" data-date="<%= essayDisplay.relativeDateValue %>">
+									<span class="font-medium essay-date-exact"><%= essayDisplay.exactDate %></span>
 								</div>
 							</div>
 						</div>
 						<div class="rounded-full bg-zinc-100 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-third-text-color dark:bg-zinc-800">
-							<%= imageCount ? `${imageCount} Photos` : 'Moment' %>
+							<%= essayDisplay.imageCount ? `${essayDisplay.imageCount} Photos` : 'Moment' %>
 						</div>
 					</div>
 					<div class="flex flex-wrap items-center gap-2">
@@ -50,10 +38,10 @@ const imageStyle = imageCount === 1
 						<%- markdown(essay.content || '') %>
 					</div>
 			<% if (essay.images && essay.images.length) { %>
-					<div class="essay-detail-media-grid grid gap-2.5" style="<%= gridStyle %>">
+					<div class="essay-detail-media-grid grid gap-2.5" style="<%= essayDisplay.gridStyle %>">
 				<% for (const image of essay.images.slice(0, 9)) { %>
 						<button type="button" style="padding:0;line-height:0;" class="block overflow-hidden rounded-[1rem] bg-[var(--card-background-color)]">
-							<img src="<%= image %>" alt="essay image" loading="lazy" style="<%= imageStyle %>" class="cursor-zoom-in transition-transform duration-300 hover:scale-[1.03]">
+							<img src="<%= image %>" alt="essay image" loading="lazy" style="<%= essayDisplay.imageStyle %>" class="cursor-zoom-in transition-transform duration-300 hover:scale-[1.03]">
 						</button>
 				<% } %>
 					</div>
@@ -61,7 +49,7 @@ const imageStyle = imageCount === 1
 			<% if (essay.videos && essay.videos.length) { %>
 					<div class="flex flex-col gap-3">
 				<% for (const video of essay.videos) { %>
-						<video controls preload="metadata" style="height:16rem;width:100%;max-width:22rem;object-fit:cover;" class="rounded-[1rem] bg-black">
+						<video controls preload="metadata" style="<%= essayDisplay.videoStyle %>" class="rounded-[1rem] bg-black">
 							<source src="<%= video %>">
 						</video>
 				<% } %>
@@ -87,12 +75,35 @@ const imageStyle = imageCount === 1
 					data-base-likes="<%= essay.likes || 0 %>"
 					aria-pressed="false"
 				>
-					<span>点赞</span>
+						<span>本地喜欢</span>
 					<span class="essay-like-count"><%= essay.likes || 0 %></span>
 				</button>
 					</div>
 				</div>
 			</div>
+			<% if (prevEssay || nextEssay) { %>
+			<div class="grid gap-3 md:grid-cols-2">
+				<% if (prevEssay) { %>
+				<a
+					href="<%= getEssayUrl(prevEssay) %>"
+					class="flex min-h-[88px] flex-col justify-between rounded-[1.2rem] bg-zinc-100 px-4 py-3 transition-colors hover:text-primary-color dark:bg-zinc-800"
+				>
+					<span class="text-xs uppercase tracking-[0.16em] text-third-text-color">上一条</span>
+					<span class="text-sm font-medium leading-6"><%= prevEssay.title %></span>
+				</a>
+				<% } else { %>
+				<div></div>
+				<% } %>
+				<% if (nextEssay) { %>
+				<a
+					href="<%= getEssayUrl(nextEssay) %>"
+					class="flex min-h-[88px] flex-col justify-between rounded-[1.2rem] bg-zinc-100 px-4 py-3 text-left transition-colors hover:text-primary-color dark:bg-zinc-800"
+				>
+					<span class="text-xs uppercase tracking-[0.16em] text-third-text-color">下一条</span>
+					<span class="text-sm font-medium leading-6"><%= nextEssay.title %></span>
+				</a>
+				<% } %>
+			</div>
+			<% } %>
 		</div>
-	</div>
 </div>

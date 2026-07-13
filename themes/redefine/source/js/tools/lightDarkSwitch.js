@@ -71,26 +71,57 @@ export const ModeToggle = {
   },
 
   async setGiscusTheme(theme) {
-    if (!document.querySelector("#giscus-container")) {
+    const container = document.querySelector("#giscus-container");
+    if (!container) {
       return;
     }
 
-    let giscusFrame = document.querySelector("iframe.giscus-frame");
-    while (!giscusFrame) {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      giscusFrame = document.querySelector("iframe.giscus-frame");
-    }
-
-    while (giscusFrame.classList.contains("giscus-frame--loading")) {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-
     theme ??= styleStatus.isDark ? "dark" : "light";
+    const themeRoot = new URL(config.root || "/", window.location.origin);
+    const giscusTheme = theme === "dark"
+      ? new URL("css/giscus-comment-dark.css?v=2", themeRoot).href
+      : theme === "light"
+        ? new URL("css/giscus-comment-light.css?v=2", themeRoot).href
+        : theme;
+    const giscusScript = container.querySelector('script[src="https://giscus.app/client.js"]');
+    if (giscusScript) {
+      giscusScript.setAttribute("data-theme", giscusTheme);
+    }
+
+    const maxAttempts = 30;
+    let giscusFrame = container.querySelector("iframe.giscus-frame");
+    for (let attempt = 0; attempt < maxAttempts && !giscusFrame; attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      giscusFrame = container.querySelector("iframe.giscus-frame");
+    }
+
+    if (!giscusFrame?.contentWindow) {
+      return;
+    }
+
+    if (giscusFrame.classList.contains("giscus-frame--loading")) {
+      await new Promise((resolve) => {
+        const timeoutId = setTimeout(resolve, 6000);
+        giscusFrame.addEventListener(
+          "load",
+          () => {
+            clearTimeout(timeoutId);
+            resolve();
+          },
+          { once: true },
+        );
+      });
+    }
+
+    if (giscusFrame.classList.contains("giscus-frame--loading")) {
+      return;
+    }
+
     giscusFrame.contentWindow.postMessage(
       {
         giscus: {
           setConfig: {
-            theme,
+            theme: giscusTheme,
           },
         },
       },

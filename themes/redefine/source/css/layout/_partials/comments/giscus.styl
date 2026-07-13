@@ -1,0 +1,41 @@
+.comments-container
+  margin-top 2.5rem
+  padding-top 1.5rem
+  border-top 1px solid var(--border-color)
+
+  .comment-area-title
+    color var(--first-text-color)
+
+.giscus-container
+  position relative
+  width 100%
+  min-height 120px
+  margin-top 0.75rem
+  padding 0
+  border 0
+  background transparent
+  box-sizing border-box
+
+  .giscus-loading
+    display flex
+    min-height 100px
+    align-items center
+    justify-content center
+    color var(--third-text-color)
+    font-size 0.9rem
+
+  &.is-ready
+    .giscus-loading
+      display none
+
+  iframe.giscus-frame
+    display block
+    width 100%
+
++redefine-mobile()
+  .comments-container
+    margin-top 1.5rem
+    padding-top 1.25rem
+
+  .giscus-container
+    min-height 110px

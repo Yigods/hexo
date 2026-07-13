@@ -5,6 +5,7 @@
 	<%- partial(pageData.partial) %>
 	<% } %>
 
+	<% if (!pageData || (page.content && String(page.content).trim())) { %>
 	<div class="page-template-content markdown-body">
 		<% if (!pageData) { %>
 		<h1><%- page.title %></h1>
@@ -12,9 +13,10 @@
 
 		<%- page.content %>
 	</div>
+	<% } %>
 
 	<div class="page-template-comments">
-		<% if (page.hasOwnProperty('comment') && (page.comment === true || page.comments === true) ) { %>
+		<% if (page.comment === true || (!page.hasOwnProperty('comment') && page.comments === true)) { %>
 		<%- partial('components/comments/comment') %>
 		<% } %>
 	</div>

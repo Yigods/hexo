@@ -1,8 +1,8 @@
-<div class="comments-container mt-10 w-full ">
+<section class="comments-container mt-10 w-full" aria-labelledby="comment-area-title">
     <div id="comment-anchor" class="w-full h-2.5"></div>
-    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+    <h2 id="comment-area-title" class="comment-area-title w-full my-2 text-xl md:text-2xl font-bold">
         <%- __('comments') %>
-    </div>
+    </h2>
     <% if (theme.comment.enable === true && theme.comment.hasOwnProperty('system')) { %>
 
         <% if  (theme.comment.system === 'waline') { %>
@@ -24,4 +24,4 @@
         
         <% } %>
     <% } %>
-</div>
+</section>

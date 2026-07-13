@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "node ./node_modules/hexo-cli/bin/hexo clean && node ./node_modules/hexo-cli/bin/hexo generate",
+    "postinstall": "npm --prefix themes/redefine ci --include=dev --ignore-scripts",
+    "build": "npm run build:theme && npm run build:site && npm run check:site",
+    "build:theme": "npm --prefix themes/redefine run build",
+    "build:site": "node ./node_modules/hexo-cli/bin/hexo clean && node ./node_modules/hexo-cli/bin/hexo generate",
+    "check:site": "node tools/check-generated-site.js",
     "clean": "node ./node_modules/hexo-cli/bin/hexo clean",
     "deploy": "node ./node_modules/hexo-cli/bin/hexo deploy",
     "server": "node ./node_modules/hexo-cli/bin/hexo server"

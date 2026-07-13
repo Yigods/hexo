@@ -13,7 +13,7 @@ info:
   # Site title
   title: Yigod's Blog
   # Site subtitle
-  subtitle: RECODE MY LIFE
+  subtitle: CODE, REVERSE, LIFE
   # Author name
   author: Yigod
   # Site URL
@@ -93,8 +93,8 @@ global:
   # Whether to enable open graph
   open_graph:
     enable: true
-    image: /images/redefine-og.webp  # default og:image
-    description: Hexo Theme Redefine, Redefine Your Hexo Journey.
+    image: /images/logo.png  # default og:image
+    description: 记录编程、逆向工程、Pwn、CTF 与日常思考。
   # Google Analytics
   google_analytics:
     enable: false # Whether to enable Google Analytics
@@ -131,7 +131,7 @@ home_banner:
   title: Yigod's Blog
   # Home banner subtitle
   subtitle:
-    text: [Nothing loading] # subtitle text, array
+    text: [记录代码，也记录生活] # subtitle text, array
     hitokoto:  # 一言配置
       enable: false # Whether to enable hitokoto
       show_author: false # Whether to show author
@@ -173,7 +173,7 @@ home_banner:
       - icon: github
         url: https://github.com/Yigods
       - icon: email
-        url: 2781431072@#qq.com
+        url: 2781431072@qq.com
     # Social links with QRcode drawers
     qrs: []
 # HOME BANNER <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
@@ -214,8 +214,8 @@ navbar:
       icon: fa-regular fa-user
       submenus:
         Me: /about
-        Github: https://github.com/EvanNotFound/hexo-theme-redefine
-        Blog: https://ohevan.com
+        Github: https://github.com/Yigods
+        Email: mailto:2781431072@qq.com
     Links: 
       icon: fa-regular fa-link
       submenus:
@@ -244,7 +244,7 @@ home:
     enable: true # Whether to enable sidebar
     position: left # Sidebar position. left, right
     first_item: menu # First item in sidebar. menu, info
-    announcement: One person who love re&pwn # Announcement text
+    announcement: 记录 Reverse、Pwn 与编程实践 # Announcement text
     show_on_mobile: true # Whether to show sidebar navigation on mobile sheet menu
     links:
       Archives: 
@@ -375,10 +375,10 @@ comment:
       category_id: DIC_kwDONqfSxc4C7kdy # Discussion category ID
       mapping: pathname # Which value to use as the unique identifier for the page. e.g. pathname, url, title, og:title. DO NOT USE og:title WITH PJAX ENABLED since pjax will not update og:title when the page changes
       strict: 0 # Whether to enable strict mode. e.g. 0, 1
-      reactions_enabled: 1 # Whether to enable reactions. e.g. 0, 1
+      reactions_enabled: 0 # Keep the comment area compact and aligned with the blog theme
       emit_metadata: 0 # Whether to emit metadata. e.g. 0, 1
       lang: zh-CN # Giscus language. e.g. en, zh-CN, zh-TW
-      input_position: bottom # Place the comment box above/below the comments. e.g. top, bottom
+      input_position: top # Place the comment box above/below the comments. e.g. top, bottom
       loading: lazy # Load the comments lazily
 # COMMENT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 

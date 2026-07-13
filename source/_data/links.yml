@@ -6,17 +6,6 @@
     description: 用香港记者的速度更新文章
     avatar: https://evan.beee.top/avatar.png
     thumbnail: https://img1.imgtp.com/2023/06/19/Jegvz84P.png
-- links_category: Normal
-  has_thumbnail: false
-  list:
-  - name: Example Site
-    link: https://example.com
-    description: Example Site Description
-    avatar: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-  - name: Example Site 2
-    link: https://example.com
-    description: Example Site Description
-    avatar: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 - links_category: 分类名
   has_thumbnail: false
   list:

@@ -1,20 +1,35 @@
+<%
+    const giscusConfig = theme.comment.config.giscus || {};
+    const giscusStrict = String(giscusConfig.strict ?? '0');
+    const giscusReactions = String(giscusConfig.reactions_enabled ?? '1');
+    const giscusMetadata = String(giscusConfig.emit_metadata ?? '0');
+%>
 <% if (
         theme.comment.system==='giscus' &&
-        theme.comment.config.giscus.repo &&
-        theme.comment.config.giscus.repo_id &&
-        theme.comment.config.giscus.category_id
+        giscusConfig.repo &&
+        giscusConfig.repo_id &&
+        giscusConfig.category_id
     ) { %>
-    <div id="giscus-container"></div>
+    <div id="giscus-container" class="giscus-container" aria-live="polite">
+        <div class="giscus-loading" role="status">正在加载评论…</div>
+    </div>
     <script <%= theme.global.single_page === true && 'data-swup-reload-script' %> defer>
         (function() {
             const containerId = "giscus-container";
-            const mapping = "<%= theme.comment.config.giscus.mapping || 'pathname' %>";
-            const lang = "<%= theme.comment.config.giscus.lang || 'en' %>";
-            const inputPosition = "<%= theme.comment.config.giscus.input_position || 'bottom' %>";
-            const reactionsEnabled = "<%= theme.comment.config.giscus.reactions_enabled || '1' %>" === "1";
-            const emitMetadata = "<%= theme.comment.config.giscus.emit_metadata || '1' %>" === "1";
-            const strict = "<%= theme.comment.config.giscus.strict || '0' %>" === "1";
-            const loading = "<%= theme.comment.config.giscus.loading || 'lazy' %>";
+            const mapping = "<%= giscusConfig.mapping || 'pathname' %>";
+            const lang = "<%= giscusConfig.lang || 'en' %>";
+            const inputPosition = "<%= giscusConfig.input_position || 'top' %>";
+            const reactionsEnabled = "<%= giscusReactions %>" === "1";
+            const emitMetadata = "<%= giscusMetadata %>" === "1";
+            const strict = "<%= giscusStrict %>" === "1";
+            const loading = "<%= giscusConfig.loading || 'lazy' %>";
+            const lightThemeUrl = new URL("<%= url_for('css/giscus-comment-light.css?v=2') %>", location.origin).href;
+            const darkThemeUrl = new URL("<%= url_for('css/giscus-comment-dark.css?v=2') %>", location.origin).href;
+
+            const getSiteTheme = () =>
+                document.documentElement.classList.contains("dark")
+                    ? darkThemeUrl
+                    : lightThemeUrl;
 
             const getTerm = () => {
                 if (mapping === "pathname") return location.pathname;
@@ -28,13 +43,14 @@
             };
 
             const sendUpdate = () => {
-                const iframe = document.querySelector("iframe.giscus-frame");
+                const container = document.getElementById(containerId);
+                const iframe = container?.querySelector("iframe.giscus-frame");
                 if (!iframe) {
                     return;
                 }
 
                 const setConfig = {
-                    theme: "preferred_color_scheme",
+                    theme: getSiteTheme(),
                     lang,
                     inputPosition,
                     reactionsEnabled,
@@ -73,15 +89,15 @@
 
                 const giscusConfig = {
                     src: "https://giscus.app/client.js",
-                    "data-repo": "<%= theme.comment.config.giscus.repo %>",
-                    "data-repo-id": "<%= theme.comment.config.giscus.repo_id %>",
-                    "data-category": "<%= theme.comment.config.giscus.category %>",
-                    "data-category-id": "<%= theme.comment.config.giscus.category_id %>",
+                    "data-repo": "<%= giscusConfig.repo %>",
+                    "data-repo-id": "<%= giscusConfig.repo_id %>",
+                    "data-category": "<%= giscusConfig.category %>",
+                    "data-category-id": "<%= giscusConfig.category_id %>",
                     "data-mapping": mapping,
-                    "data-strict": "<%= theme.comment.config.giscus.strict || '0' %>",
-                    "data-reactions-enabled": "<%= theme.comment.config.giscus.reactions_enabled || '1' %>",
-                    "data-emit-metadata": "<%= theme.comment.config.giscus.emit_metadata || '1' %>",
-                    "data-theme": "preferred_color_scheme",
+                    "data-strict": "<%= giscusStrict %>",
+                    "data-reactions-enabled": "<%= giscusReactions %>",
+                    "data-emit-metadata": "<%= giscusMetadata %>",
+                    "data-theme": getSiteTheme(),
                     "data-lang": lang,
                     "data-input-position": inputPosition,
                     "data-loading": loading,
@@ -95,6 +111,14 @@
                 }
                 container.appendChild(giscusScript);
                 container.dataset.giscusInit = "true";
+
+                const observer = new MutationObserver(() => {
+                    if (container.querySelector("iframe.giscus-frame")) {
+                        container.classList.add("is-ready");
+                        observer.disconnect();
+                    }
+                });
+                observer.observe(container, { childList: true, subtree: true });
             };
 
             const runGiscus = () => {

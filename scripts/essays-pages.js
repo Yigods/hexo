@@ -51,7 +51,7 @@ function normalizeEssay(rawEssay, index, usedSlugs) {
   const content = String(raw.content || "").trim();
   const parsedDate = parseEssayDate(raw.date);
   const date = parsedDate.isValid()
-    ? parsedDate.clone().utc().format("YYYY-MM-DD HH:mm:ss")
+    ? parsedDate.format("YYYY-MM-DD HH:mm:ss")
     : String(raw.date || "").trim();
   const datePart = parsedDate.isValid() ? parsedDate.format("YYYYMMDD-HHmm") : "undated";
   const excerptPart = slugify(content.replace(/[#>*`\[\]()!]/g, " ").slice(0, 36)) || "entry";
@@ -100,11 +100,44 @@ function getRawEssays() {
 
 function getSortedEssays(essays) {
   return normalizeEssays(essays).sort((a, b) => {
+    const aMonth = parseEssayDate(a.date).format("YYYYMM");
+    const bMonth = parseEssayDate(b.date).format("YYYYMM");
+    if (aMonth !== bMonth) {
+      return bMonth.localeCompare(aMonth);
+    }
     if (a.pinned !== b.pinned) {
       return a.pinned ? -1 : 1;
     }
     return b.dateValue - a.dateValue;
   });
+}
+
+function buildEssayDisplayData(essay, options = {}) {
+  const detail = options.detail === true;
+  const parsedDate = parseEssayDate(essay?.date);
+  const exactDate = parsedDate.isValid()
+    ? parsedDate.format("YYYY-MM-DD HH:mm")
+    : String(essay?.date || "").trim();
+  const relativeDateValue = parsedDate.isValid() ? parsedDate.format() : "";
+  const imageCount = Array.isArray(essay?.images) ? essay.images.length : 0;
+  const gridStyle = imageCount === 1
+    ? `grid-template-columns:minmax(0,1fr);max-width:${detail ? "22rem" : "14rem"};${detail ? "gap:0.625rem;" : ""}`
+    : (imageCount === 2 || imageCount === 4)
+      ? `grid-template-columns:repeat(2,minmax(0,1fr));max-width:${detail ? "38rem" : "32rem"};${detail ? "gap:0.625rem;" : ""}`
+      : `grid-template-columns:repeat(3,minmax(0,1fr));max-width:${detail ? "38rem" : "32rem"};${detail ? "gap:0.625rem;" : ""}`;
+  const imageStyle = imageCount === 1
+    ? `height:${detail ? "16rem" : "10.5rem"};width:100%;object-fit:cover;`
+    : "aspect-ratio:1 / 1;width:100%;object-fit:cover;";
+  const videoStyle = `height:${detail ? "16rem" : "10.5rem"};width:100%;max-width:${detail ? "22rem" : "14rem"};object-fit:cover;`;
+
+  return {
+    exactDate,
+    relativeDateValue,
+    imageCount,
+    gridStyle,
+    imageStyle,
+    videoStyle,
+  };
 }
 
 hexo.extend.helper.register("getNormalizedEssays", function (essays) {
@@ -115,20 +148,38 @@ hexo.extend.helper.register("getEssayUrl", function (essay) {
   return essay && essay.url ? essay.url : "/essays/";
 });
 
+hexo.extend.helper.register("getEssayDisplayData", function (essay, options = {}) {
+  return buildEssayDisplayData(essay, options);
+});
+
 hexo.extend.generator.register("essay_detail_pages", function () {
   const essays = getSortedEssays(getRawEssays());
 
-  return essays.map((essay) => ({
-    path: `essays/${essay.slug}/index.html`,
-    data: {
-      layout: "page",
-      template: "essay-detail",
-      type: "essay-detail",
-      title: essay.title,
-      comment: true,
-      comments: true,
-      essay,
-    },
-    layout: ["page"],
-  }));
+  return essays.map((essay, index) => {
+    const prevEssay = index > 0 ? essays[index - 1] : null;
+    const nextEssay = index < essays.length - 1 ? essays[index + 1] : null;
+    const essayDate = parseEssayDate(essay.date);
+
+    return {
+      path: `essays/${essay.slug}/index.html`,
+      data: {
+        layout: "page",
+        template: "essay-detail",
+        type: "essay-detail",
+        title: essay.title,
+        date: essayDate.isValid() ? essayDate : undefined,
+        updated: essayDate.isValid() ? essayDate.clone() : undefined,
+        description: essay.content.replace(/[#>*`\[\]()!]/g, " ").replace(/\s+/g, " ").trim().slice(0, 160),
+        og_description: essay.content.replace(/[#>*`\[\]()!]/g, " ").replace(/\s+/g, " ").trim().slice(0, 160),
+        og_image: essay.images[0] || undefined,
+        cover: essay.images[0] || undefined,
+        comment: true,
+        comments: true,
+        essay,
+        prevEssay,
+        nextEssay,
+      },
+      layout: ["page"],
+    };
+  });
 });

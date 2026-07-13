@@ -32,6 +32,7 @@
   },
   "homepage": "https://redefine.ohevan.com",
   "devDependencies": {
+    "@tailwindcss/cli": "^4.3.2",
     "eslint": "^8.47.0",
     "glob-promise": "^6.0.7",
     "husky": "^9.1.6",
